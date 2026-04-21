@@ -1,0 +1,2 @@
+[bt_api.plugins]
+bybit = bt_api_bybit.plugin:register_plugin
