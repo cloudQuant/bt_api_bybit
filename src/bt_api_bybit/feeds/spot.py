@@ -4,14 +4,15 @@ from __future__ import annotations
 
 from typing import Any
 
+from bt_api_base.functions.utils import update_extra_data
+from bt_api_base.logging_factory import get_logger
+
 from bt_api_bybit.containers.balances.bybit_balance import BybitSpotBalanceData
-from bt_api_bybit.exchange_data.bybit_exchange_data import BybitExchangeDataSpot
 from bt_api_bybit.containers.orderbooks.bybit_orderbook import BybitSpotOrderBookData
 from bt_api_bybit.containers.orders.bybit_order import BybitSpotOrderData
 from bt_api_bybit.containers.tickers.bybit_ticker import BybitSpotTickerData
+from bt_api_bybit.exchange_data.bybit_exchange_data import BybitExchangeDataSpot
 from bt_api_bybit.feeds.request_base import BybitRequestData
-from bt_api_base.functions.utils import update_extra_data
-from bt_api_base.logging_factory import get_logger
 
 
 class BybitRequestDataSpot(BybitRequestData):

@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 import time
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-from bt_api_base._compat import Self
+if TYPE_CHECKING:
+    from bt_api_base._compat import Self
+
 from bt_api_base.containers.tickers.ticker import TickerData
 from bt_api_base.functions.utils import from_dict_get_float
 from bt_api_base.logging_factory import get_logger

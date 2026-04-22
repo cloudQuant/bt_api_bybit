@@ -12,13 +12,14 @@ import time
 from typing import Any
 from urllib.parse import urlencode
 
-from bt_api_bybit.exchange_data.bybit_exchange_data import BybitExchangeData
 from bt_api_base.containers.requestdatas.request_data import RequestData
-from bt_api_bybit.errors.bybit_translator import BybitErrorTranslator
 from bt_api_base.exceptions import QueueNotInitializedError
 from bt_api_base.feeds.capability import Capability
 from bt_api_base.feeds.feed import Feed
 from bt_api_base.logging_factory import get_logger
+
+from bt_api_bybit.errors.bybit_translator import BybitErrorTranslator
+from bt_api_bybit.exchange_data.bybit_exchange_data import BybitExchangeData
 
 
 class BybitRequestData(Feed):
