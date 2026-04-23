@@ -20,6 +20,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Checkout bt_api_base (sibling)
+        uses: actions/checkout@v4
+        with:
+          repository: cloudquant/bt_api_base
+          path: bt_api_base
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -28,6 +35,10 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install ruff mypy pytest
+      - name: Install bt_api_base
+        run: |
+          cd bt_api_base
+          pip install -e .
       - name: Install package
         run: pip install -e .
       - name: Ruff lint
@@ -49,10 +60,23 @@ jobs:
         python-version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
     steps:
       - uses: actions/checkout@v4
+
+      - name: Checkout bt_api_base (sibling)
+        uses: actions/checkout@v4
+        with:
+          repository: cloudquant/bt_api_base
+          path: bt_api_base
+
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
+
+      - name: Install bt_api_base
+        run: |
+          cd bt_api_base
+          pip install -e .
+
       - name: Install package
         run: |
           python -m pip install --upgrade pip
