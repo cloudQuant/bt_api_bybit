@@ -10,7 +10,7 @@ from bt_api_base.gateway.registrar import GatewayRuntimeRegistrar
 from bt_api_base.plugins.loader import PluginLoader
 from bt_api_base.plugins.protocol import PluginInfo
 from bt_api_base.registry import ExchangeRegistry
-from bt_api_py.testing import create_isolated_exchange_registry, reset_gateway_runtime_registrar
+from bt_api_base.testing import create_isolated_exchange_registry, reset_gateway_runtime_registrar
 
 from bt_api_bybit.plugin import register_plugin
 
