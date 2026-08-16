@@ -1,3 +1,4 @@
+"""Module-level docstring."""
 from bt_api_bybit.containers.tickers.bybit_ticker import (
     BybitSpotTickerData,
     BybitSwapTickerData,

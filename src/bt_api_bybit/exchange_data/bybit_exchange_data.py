@@ -1,3 +1,4 @@
+"""Module documentation"""
 from __future__ import annotations
 
 import os
@@ -8,13 +9,13 @@ from bt_api_base.logging_factory import get_logger
 
 logger = get_logger("bybit_exchange_data")
 
-# ── 配置加载缓存 ──────────────────────────────────────────────
+# ──  ──────────────────────────────────────────────
 _bybit_config = None
 _bybit_config_loaded = False
 
 
 def _get_bybit_config() -> Any | None:
-    """延迟加载并缓存 Bybit YAML 配置."""
+    """ Bybit YAML ."""
     global _bybit_config, _bybit_config_loaded
     if _bybit_config_loaded:
         return _bybit_config
@@ -44,6 +45,7 @@ class BybitExchangeData(ExchangeData):
     """
 
     def __init__(self) -> None:
+        """__init__ method"""
         super().__init__()
         self.exchange_name = "bybit"
         self.rest_url = ""
@@ -80,12 +82,10 @@ class BybitExchangeData(ExchangeData):
         ]
 
     def _load_from_config(self, asset_type) -> bool:
-        """从 YAML 配置文件加载交易所参数.
+        """ YAML .
 
-        Args:
-            asset_type: 资产类型 key, 如 'swap', 'spot', 'option' 等
-        Returns:
-            bool: 是否加载成功
+        Args: asset_type:  key,  'swap', 'spot', 'option'
+        Returns: bool:
 
         """
         config = _get_bybit_config()
@@ -99,17 +99,17 @@ class BybitExchangeData(ExchangeData):
         if asset_cfg.exchange_name:
             self.exchange_name = asset_cfg.exchange_name
 
-        # URLs (从 base_urls 加载，优先于 asset_cfg)
+        # URLs ( base_urls ， asset_cfg)
         if config.base_urls:
             self.rest_url = config.base_urls.rest.get(asset_type, self.rest_url)
             self.wss_url = config.base_urls.wss.get(asset_type, self.wss_url)
             self.acct_wss_url = config.base_urls.acct_wss.get(asset_type, self.acct_wss_url)
 
-        # rest_paths (直接使用, 格式一致)
+        # rest_paths (, )
         if asset_cfg.rest_paths:
             self.rest_paths = dict(asset_cfg.rest_paths)
 
-        # wss_paths: YAML 模板字符串 → {'params': [template], 'method': 'SUBSCRIBE', 'id': 1}
+        # wss_paths: YAML  → {'params': [template], 'method': 'SUBSCRIBE', 'id': 1}
         if asset_cfg.wss_paths:
             converted = {}
             for key, value in asset_cfg.wss_paths.items():
@@ -122,13 +122,13 @@ class BybitExchangeData(ExchangeData):
                     converted[key] = value
             self.wss_paths = converted
 
-        # kline_periods (asset-level 优先, 否则用 exchange-level)
+        # kline_periods (asset-level ,  exchange-level)
         kp = asset_cfg.kline_periods or (config.kline_periods if config.kline_periods else None)
         if kp:
             self.kline_periods = dict(kp)
             self.reverse_kline_periods = {v: k for k, v in self.kline_periods.items()}
 
-        # legal_currency (asset-level 优先, 否则用 exchange-level)
+        # legal_currency (asset-level ,  exchange-level)
         lc = asset_cfg.legal_currency or (config.legal_currency if config.legal_currency else None)
         if lc:
             self.legal_currency = list(lc)
@@ -136,41 +136,41 @@ class BybitExchangeData(ExchangeData):
         return True
 
     def get_symbol(self, symbol: str) -> str:
-        """将交易对转换为 Bybit API 格式（大写）."""
+        """ Bybit API （）."""
         return symbol.upper()
 
     def get_symbol_path(self, symbol):
-        """获取交易对的路径，用于 REST API."""
+        """， REST API."""
         return symbol.upper()
 
     def get_period(self, period: str) -> str:
-        """将周期转换为 Bybit API 格式."""
+        """ Bybit API ."""
         period = period.lower()
         return self.kline_periods.get(period, period)
 
     def get_period_path(self, period):
-        """获取周期的路径，用于 REST API."""
+        """， REST API."""
         period = period.lower()
         return self.kline_periods.get(period, period)
 
     def get_rest_path(self, path_name: str, **kwargs) -> str:
-        """根据路径名获取 REST API 路径."""
+        """ REST API ."""
         return self.rest_paths.get(path_name, "")
 
     def get_wss_path(self, module, symbol: str | None = None, **kwargs) -> str:
-        """根据模块生成 WebSocket 路径."""
+        """ WebSocket ."""
         return self.wss_paths.get(module, "")
 
     def account_wss_symbol(self, symbol: str) -> str:
-        """账户 WebSocket 使用的交易对."""
+        """ WebSocket ."""
         return symbol
 
     def get_default_period(self) -> str:
-        """获取默认周期."""
+        """."""
         return "1m"
 
     def get_max_limit(self, module):
-        """获取各个模块的最大限制."""
+        """."""
         limits = {
             "tickers": 100,
             "depth": 200,
@@ -180,23 +180,25 @@ class BybitExchangeData(ExchangeData):
         return limits.get(module, 100)
 
     def get_reverse_period(self, api_period: str) -> str:
-        """将 API 周期转换为内部周期."""
+        """ API ."""
         return self.reverse_kline_periods.get(api_period, api_period)
 
 
 class BybitExchangeDataSpot(BybitExchangeData):
-    """Bybit 现货交易数据."""
+    """Bybit ."""
 
     def __init__(self) -> None:
+        """__init__ method"""
         super().__init__()
         self.asset_type = "spot"
         self._load_from_config(self.asset_type)
 
 
 class BybitExchangeDataSwap(BybitExchangeData):
-    """Bybit 互换合约交易数据."""
+    """Bybit ."""
 
     def __init__(self) -> None:
+        """__init__ method"""
         super().__init__()
         self.asset_type = "swap"
         self._load_from_config(self.asset_type)

@@ -1,3 +1,4 @@
+"""Module documentation"""
 from __future__ import annotations
 
 import time
@@ -14,14 +15,15 @@ logger = get_logger("container")
 
 
 class BybitTickerData(TickerData):
-    """保存 Bybit ticker 信息."""
+    """ Bybit ticker ."""
 
     def __init__(self, ticker_info, symbol_name, asset_type, has_been_json_encoded=False) -> None:
+        """__init__ method"""
         super().__init__(ticker_info, has_been_json_encoded)
-        self.exchange_name = "BYBIT"  # 交易所名称
-        self.local_update_time = time.time()  # 本地时间戳
+        self.exchange_name = "BYBIT"  # 
+        self.local_update_time = time.time()  # 
         self.symbol_name = symbol_name
-        self.asset_type = asset_type  # ticker的类型
+        self.asset_type = asset_type  # ticker
         self.ticker_data: dict[str, Any] | None = ticker_info if has_been_json_encoded else None
         self.ticker_symbol_name: str | None = None
         self.server_time: float | None = None
@@ -41,7 +43,7 @@ class BybitTickerData(TickerData):
         self.has_been_init_data = False
 
     def init_data(self) -> Self:
-        """初始化 ticker 数据."""
+        """ ticker ."""
         if self.has_been_init_data or self.ticker_data is None:
             return self
 
@@ -52,29 +54,29 @@ class BybitTickerData(TickerData):
             if not list_data:
                 return self
 
-            ticker = list_data[0]  # Bybit 返回列表，取第一个
+            ticker = list_data[0]  # Bybit ，
 
-            # 基本信息设置
+            # 
             self.ticker_symbol_name = ticker.get("symbol")
             self.server_time = ticker.get("time", 0)
 
-            # 价格信息
+            # 
             self.last_price = from_dict_get_float(ticker, "lastPrice")
             self.bid_price = from_dict_get_float(ticker, "bid1Price")
             self.ask_price = from_dict_get_float(ticker, "ask1Price")
 
-            # 量信息
+            # 
             self.bid_volume = from_dict_get_float(ticker, "bid1Size")
             self.ask_volume = from_dict_get_float(ticker, "ask1Size")
             self.last_volume = from_dict_get_float(ticker, "volume24h")
 
-            # 24小时统计
+            # 24
             self.high_price_24h = from_dict_get_float(ticker, "highPrice24h")
             self.low_price_24h = from_dict_get_float(ticker, "lowPrice24h")
             self.volume_24h = from_dict_get_float(ticker, "volume24h")
             self.turnover_24h = from_dict_get_float(ticker, "turnover24h")
 
-            # 价格变化
+            # 
             prev_price_24h = from_dict_get_float(ticker, "prevPrice24h")
             if prev_price_24h and self.last_price:
                 self.price_change_24h = self.last_price - prev_price_24h
@@ -89,7 +91,7 @@ class BybitTickerData(TickerData):
         return self
 
     def get_all_data(self) -> dict[str, Any]:
-        """获取所有 ticker 数据."""
+        """ ticker ."""
         if self.all_data is None:
             self.init_data()
             self.all_data = {
@@ -115,7 +117,7 @@ class BybitTickerData(TickerData):
         return self.all_data or {}
 
     def __str__(self) -> str:
-        """返回 ticker 的字符串表示."""
+        """ ticker ."""
         self.init_data()
         return (
             f"BybitTicker(symbol={self.symbol_name}, "
@@ -127,14 +129,16 @@ class BybitTickerData(TickerData):
 
 
 class BybitSpotTickerData(BybitTickerData):
-    """Bybit 现货 ticker 数据."""
+    """Bybit  ticker ."""
 
     def __init__(self, ticker_info, symbol_name, has_been_json_encoded=False) -> None:
+        """__init__ method"""
         super().__init__(ticker_info, symbol_name, "spot", has_been_json_encoded)
 
 
 class BybitSwapTickerData(BybitTickerData):
-    """Bybit 期货/swap ticker 数据."""
+    """Bybit /swap ticker ."""
 
     def __init__(self, ticker_info, symbol_name, has_been_json_encoded=False) -> None:
+        """__init__ method"""
         super().__init__(ticker_info, symbol_name, "swap", has_been_json_encoded)

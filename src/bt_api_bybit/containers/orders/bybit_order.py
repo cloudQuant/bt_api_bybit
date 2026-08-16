@@ -26,8 +26,7 @@ class BybitOrderData(OrderData):
     ) -> None:
         """Initialize Bybit order data.
 
-        Args:
-            order_info: Order information from exchange (dict or JSON string)
+        Args: order_info: Order information from exchange (dict or JSON string)
             symbol_name: Symbol name for the order
             asset_type: Asset type (SPOT, FUTURE, etc.)
             has_been_json_encoded: Whether order_info is already JSON encoded
@@ -60,8 +59,7 @@ class BybitOrderData(OrderData):
     def init_data(self) -> BybitOrderData:
         """Initialize order data by parsing order_info.
 
-        Returns:
-            Self for method chaining
+        Returns: Self for method chaining
         """
         if self.has_been_init_data or self.order_data is None:
             return self
@@ -151,8 +149,7 @@ class BybitOrderData(OrderData):
     def get_all_data(self) -> dict[str, Any]:
         """Get all order data as a dictionary.
 
-        Returns:
-            Dictionary containing all order data fields
+        Returns: Dictionary containing all order data fields
         """
         if self.all_data is None:
             self.init_data()
@@ -183,32 +180,28 @@ class BybitOrderData(OrderData):
     def is_active(self) -> bool:
         """Check if order is active.
 
-        Returns:
-            True if order is active (New or PartiallyFilled)
+        Returns: True if order is active (New or PartiallyFilled)
         """
         return self.status in ["New", "PartiallyFilled"]
 
     def is_filled(self) -> bool:
         """Check if order is completely filled.
 
-        Returns:
-            True if order is filled
+        Returns: True if order is filled
         """
         return self.status == "Filled"
 
     def is_canceled(self) -> bool:
         """Check if order is cancelled.
 
-        Returns:
-            True if order is cancelled, rejected, or expired
+        Returns: True if order is cancelled, rejected, or expired
         """
         return self.status in ["Canceled", "Rejected", "Expired"]
 
     def get_fill_ratio(self) -> float:
         """Get fill ratio.
 
-        Returns:
-            Fill ratio (0.0-1.0)
+        Returns: Fill ratio (0.0-1.0)
         """
         if not self.qty or float(self.qty) == 0:
             return 0.0
@@ -217,8 +210,7 @@ class BybitOrderData(OrderData):
     def __str__(self) -> str:
         """Return string representation of order.
 
-        Returns:
-            String representation
+        Returns: String representation
         """
         self.init_data()
         return (
@@ -234,8 +226,7 @@ class BybitOrderData(OrderData):
     def get_order_id(self) -> str | None:
         """Get order ID.
 
-        Returns:
-            Order ID or None
+        Returns: Order ID or None
         """
         self.init_data()
         return self.order_id
@@ -243,8 +234,7 @@ class BybitOrderData(OrderData):
     def get_client_order_id(self) -> str | None:
         """Get client order ID.
 
-        Returns:
-            Client order ID or None
+        Returns: Client order ID or None
         """
         self.init_data()
         return self.order_link_id
@@ -252,8 +242,7 @@ class BybitOrderData(OrderData):
     def get_order_status(self):
         """Get order status.
 
-        Returns:
-            OrderStatus enum value
+        Returns: OrderStatus enum value
         """
         from bt_api_base.containers.orders.order import OrderStatus
 
@@ -273,8 +262,7 @@ class BybitOrderData(OrderData):
     def get_order_side(self) -> str | None:
         """Get order side.
 
-        Returns:
-            Order side (Buy/Sell) or None
+        Returns: Order side (Buy/Sell) or None
         """
         self.init_data()
         return self.side.upper() if self.side else None
@@ -282,8 +270,7 @@ class BybitOrderData(OrderData):
     def get_order_type(self) -> str | None:
         """Get order type.
 
-        Returns:
-            Order type or None
+        Returns: Order type or None
         """
         self.init_data()
         return self.order_type.upper() if self.order_type else None
@@ -291,8 +278,7 @@ class BybitOrderData(OrderData):
     def get_order_price(self) -> float | None:
         """Get order price.
 
-        Returns:
-            Order price or None
+        Returns: Order price or None
         """
         self.init_data()
         return float(self.price) if self.price else None
@@ -300,8 +286,7 @@ class BybitOrderData(OrderData):
     def get_order_size(self) -> float | None:
         """Get order size/quantity.
 
-        Returns:
-            Order size or None
+        Returns: Order size or None
         """
         self.init_data()
         return float(self.qty) if self.qty else None
@@ -309,8 +294,7 @@ class BybitOrderData(OrderData):
     def get_executed_qty(self) -> float | None:
         """Get executed quantity.
 
-        Returns:
-            Executed quantity or None
+        Returns: Executed quantity or None
         """
         self.init_data()
         return float(self.filled_qty) if self.filled_qty else 0.0
@@ -318,8 +302,7 @@ class BybitOrderData(OrderData):
     def get_remaining_qty(self) -> float | None:
         """Get remaining quantity.
 
-        Returns:
-            Remaining quantity or None
+        Returns: Remaining quantity or None
         """
         self.init_data()
         return float(self.remaining_qty) if self.remaining_qty else None
@@ -327,8 +310,7 @@ class BybitOrderData(OrderData):
     def get_order_avg_price(self) -> float | None:
         """Get average execution price.
 
-        Returns:
-            Average price or None
+        Returns: Average price or None
         """
         self.init_data()
         return float(self.avg_price) if self.avg_price else None
@@ -336,8 +318,7 @@ class BybitOrderData(OrderData):
     def get_order_time_in_force(self) -> str | None:
         """Get time in force.
 
-        Returns:
-            Time in force or None
+        Returns: Time in force or None
         """
         self.init_data()
         return self.time_in_force
@@ -345,8 +326,7 @@ class BybitOrderData(OrderData):
     def get_order_symbol_name(self) -> str:
         """Get symbol name.
 
-        Returns:
-            Symbol name
+        Returns: Symbol name
         """
         return self.symbol_name
 
@@ -362,8 +342,7 @@ class BybitSpotOrderData(BybitOrderData):
     ) -> None:
         """Initialize Bybit spot order data.
 
-        Args:
-            order_info: Order information from exchange (dict or JSON string)
+        Args: order_info: Order information from exchange (dict or JSON string)
             symbol_name: Symbol name for the order
             has_been_json_encoded: Whether order_info is already JSON encoded
         """
@@ -381,8 +360,7 @@ class BybitSwapOrderData(BybitOrderData):
     ) -> None:
         """Initialize Bybit swap order data.
 
-        Args:
-            order_info: Order information from exchange (dict or JSON string)
+        Args: order_info: Order information from exchange (dict or JSON string)
             symbol_name: Symbol name for the order
             has_been_json_encoded: Whether order_info is already JSON encoded
         """

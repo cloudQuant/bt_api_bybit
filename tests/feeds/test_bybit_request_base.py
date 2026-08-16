@@ -1,3 +1,4 @@
+"""Module-level docstring."""
 from unittest.mock import AsyncMock
 import pytest
 from bt_api_base.containers.requestdatas.request_data import RequestData
@@ -5,12 +6,14 @@ from bt_api_bybit.feeds.request_base import BybitRequestData
 
 
 def test_bybit_defaults_exchange_name() -> None:
+    """test_bybit_defaults_exchange_name function"""
     request_data = BybitRequestData(public_key="public-key", private_key="secret-key")
 
     assert request_data.exchange_name == "BYBIT___SPOT"
 
 
 def test_bybit_request_allows_missing_extra_data(monkeypatch) -> None:
+    """test_bybit_request_allows_missing_extra_data function"""
     request_data = BybitRequestData(
         public_key="public-key",
         private_key="secret-key",
@@ -31,6 +34,7 @@ def test_bybit_request_allows_missing_extra_data(monkeypatch) -> None:
 
 
 def test_bybit_accepts_api_key_and_api_secret_aliases() -> None:
+    """test_bybit_accepts_api_key_and_api_secret_aliases function"""
     request_data = BybitRequestData(api_key="public-key", api_secret="secret-key")
 
     assert request_data.public_key == "public-key"

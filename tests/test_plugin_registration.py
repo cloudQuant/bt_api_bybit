@@ -21,24 +21,29 @@ class _EntryPoint:
     module: str = "bt_api_bybit.plugin"
 
     def load(self) -> Any:
+        """load method"""
         module = import_module(self.module)
         return module.register_plugin
 
 
 class _RuntimeFactory:
     def __init__(self) -> None:
+        """__init__ method"""
         self.adapters: dict[str, type[Any]] = {}
 
     def register_adapter(self, exchange_type: str, adapter_cls: type[Any]) -> None:
+        """register_adapter method"""
         self.adapters[exchange_type] = adapter_cls
 
 
 def setup_function() -> None:
+    """setup_function function"""
     ExchangeRegistry.clear()
     reset_gateway_runtime_registrar()
 
 
 def test_register_plugin_returns_plugin_info():
+    """test_register_plugin_returns_plugin_info function"""
     runtime_factory = _RuntimeFactory()
     registry = create_isolated_exchange_registry()
     info = register_plugin(registry, runtime_factory)
@@ -54,6 +59,7 @@ def test_register_plugin_returns_plugin_info():
 
 
 def test_plugin_loader_loads_bybit_plugin(monkeypatch):
+    """test_plugin_loader_loads_bybit_plugin function"""
     loader = PluginLoader(ExchangeRegistry, GatewayRuntimeRegistrar)
     monkeypatch.setattr(loader, "_discover_entry_points", lambda group: [_EntryPoint()])
 

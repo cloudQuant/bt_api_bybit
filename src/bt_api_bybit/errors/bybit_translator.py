@@ -1,5 +1,5 @@
 """
-Bybit API 错误翻译器
+Bybit API 
 """
 
 from __future__ import annotations
@@ -8,9 +8,9 @@ from bt_api_base.error import ErrorTranslator, UnifiedError, UnifiedErrorCode
 
 
 class BybitErrorTranslator(ErrorTranslator):
-    """Bybit API 错误翻译器
+    """Bybit API 
 
-    Bybit API 返回的错误格式:
+    Bybit API :
     {
       "retCode": 10003,
       "retMsg": "Invalid API key",
@@ -34,7 +34,7 @@ class BybitErrorTranslator(ErrorTranslator):
 
     @classmethod
     def translate(cls, raw_error: dict, venue: str) -> UnifiedError | None:
-        """Bybit API 错误码是数字，在 retCode 字段中"""
+        """Bybit API ， retCode """
         ret_code = raw_error.get("retCode")
         ret_msg = raw_error.get("retMsg", "")
 

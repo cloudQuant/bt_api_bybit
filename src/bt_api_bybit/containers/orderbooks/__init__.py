@@ -1,3 +1,4 @@
+"""Module-level docstring."""
 from bt_api_bybit.containers.orderbooks.bybit_orderbook import (
     BybitOrderBookData,
     BybitSpotOrderBookData,

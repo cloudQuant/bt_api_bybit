@@ -19,6 +19,7 @@ class BybitRequestDataSpot(BybitRequestData):
     """Bybit Spot trading REST API feed."""
 
     def __init__(self, data_queue: Any = None, **kwargs: Any) -> None:
+        """__init__ method"""
         kwargs["asset_type"] = "spot"
         kwargs.setdefault("logger_name", "bybit_spot_feed.log")
         super().__init__(data_queue, **kwargs)
@@ -31,12 +32,10 @@ class BybitRequestDataSpot(BybitRequestData):
     def _get_ticker(self, symbol, extra_data=None, **kwargs):
         """Get ticker data.
 
-        Args:
-            symbol: Trading pair symbol
+        Args: symbol: Trading pair symbol
             extra_data: Extra data for processing
 
-        Returns:
-            tuple: (path, params, extra_data)
+        Returns: tuple: (path, params, extra_data)
         """
         request_symbol = self._params.get_symbol(symbol)
         request_type = "get_tick"
@@ -68,11 +67,9 @@ class BybitRequestDataSpot(BybitRequestData):
     def get_ticker(self, symbol, extra_data=None, **kwargs):
         """Get ticker data for a symbol.
 
-        Args:
-            symbol: Trading pair symbol
+        Args: symbol: Trading pair symbol
 
-        Returns:
-            RequestData: Ticker data
+        Returns: RequestData: Ticker data
         """
         path, params, extra_data = self._get_ticker(symbol, extra_data, **kwargs)
         return self.request(path, params=params, extra_data=extra_data)
@@ -98,13 +95,11 @@ class BybitRequestDataSpot(BybitRequestData):
     def _get_depth(self, symbol, limit=50, extra_data=None, **kwargs):
         """Get orderbook depth.
 
-        Args:
-            symbol: Trading pair symbol
+        Args: symbol: Trading pair symbol
             limit: Depth limit
             extra_data: Extra data for processing
 
-        Returns:
-            tuple: (path, params, extra_data)
+        Returns: tuple: (path, params, extra_data)
         """
         request_symbol = self._params.get_symbol(symbol)
         request_type = "get_depth"
@@ -152,14 +147,12 @@ class BybitRequestDataSpot(BybitRequestData):
     def _get_kline(self, symbol, period="1m", limit=200, extra_data=None, **kwargs):
         """Get kline/candlestick data.
 
-        Args:
-            symbol: Trading pair symbol
+        Args: symbol: Trading pair symbol
             period: Kline period (1m, 5m, 15m, 30m, 1h, 4h, 1d, 1w, 1M)
             limit: Number of klines (max 1000)
             extra_data: Extra data for processing
 
-        Returns:
-            tuple: (path, params, extra_data)
+        Returns: tuple: (path, params, extra_data)
         """
         request_symbol = self._params.get_symbol(symbol)
         request_period = self._params.get_period(period)
@@ -258,13 +251,11 @@ class BybitRequestDataSpot(BybitRequestData):
     def _get_balance(self, account_type="UNIFIED", coin=None, extra_data=None, **kwargs):
         """Get account balance.
 
-        Args:
-            account_type: Account type (UNIFIED, SPOT, etc.)
+        Args: account_type: Account type (UNIFIED, SPOT, etc.)
             coin: Specific coin to query
             extra_data: Extra data for processing
 
-        Returns:
-            tuple: (path, params, extra_data)
+        Returns: tuple: (path, params, extra_data)
         """
         request_type = "get_balance"
         path = self._params.get_rest_path(request_type)
@@ -324,8 +315,7 @@ class BybitRequestDataSpot(BybitRequestData):
     ):
         """Place an order.
 
-        Args:
-            symbol: Trading pair symbol
+        Args: symbol: Trading pair symbol
             qty: Order quantity
             side: Buy or Sell
             order_type: Limit or Market
@@ -333,8 +323,7 @@ class BybitRequestDataSpot(BybitRequestData):
             time_in_force: GTC, IOC, FOK
             extra_data: Extra data for processing
 
-        Returns:
-            tuple: (path, body, extra_data)
+        Returns: tuple: (path, body, extra_data)
         """
         request_symbol = self._params.get_symbol(symbol)
         request_type = "make_order"
@@ -416,14 +405,12 @@ class BybitRequestDataSpot(BybitRequestData):
     def _cancel_order(self, symbol, order_id=None, order_link_id=None, extra_data=None, **kwargs):
         """Cancel an order.
 
-        Args:
-            symbol: Trading pair symbol
+        Args: symbol: Trading pair symbol
             order_id: Order ID
             order_link_id: Client order link ID
             extra_data: Extra data for processing
 
-        Returns:
-            tuple: (path, body, extra_data)
+        Returns: tuple: (path, body, extra_data)
         """
         request_symbol = self._params.get_symbol(symbol)
         request_type = "cancel_order"
@@ -461,14 +448,12 @@ class BybitRequestDataSpot(BybitRequestData):
     def _query_order(self, symbol, order_id=None, order_link_id=None, extra_data=None, **kwargs):
         """Query order details.
 
-        Args:
-            symbol: Trading pair symbol
+        Args: symbol: Trading pair symbol
             order_id: Order ID
             order_link_id: Client order link ID
             extra_data: Extra data for processing
 
-        Returns:
-            tuple: (path, params, extra_data)
+        Returns: tuple: (path, params, extra_data)
         """
         request_symbol = self._params.get_symbol(symbol)
         request_type = "get_open_orders"
@@ -514,13 +499,11 @@ class BybitRequestDataSpot(BybitRequestData):
     def _get_deals(self, symbol=None, limit=50, extra_data=None, **kwargs):
         """Get trade execution records.
 
-        Args:
-            symbol: Trading pair symbol
+        Args: symbol: Trading pair symbol
             limit: Number of records
             extra_data: Extra data for processing
 
-        Returns:
-            tuple: (path, params, extra_data)
+        Returns: tuple: (path, params, extra_data)
         """
         request_type = "get_deals"
         path = self._params.get_rest_path(request_type)

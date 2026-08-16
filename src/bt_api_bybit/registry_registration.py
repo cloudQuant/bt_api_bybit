@@ -1,3 +1,4 @@
+"""Module-level docstring."""
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -14,6 +15,7 @@ from bt_api_bybit.feeds.swap import BybitRequestDataSwap
 
 
 def register_bybit(registry: type[ExchangeRegistry]) -> None:
+    """register_bybit function"""
     registry.register_feed("BYBIT___SPOT", BybitRequestDataSpot)
     registry.register_exchange_data("BYBIT___SPOT", BybitExchangeDataSpot)
 

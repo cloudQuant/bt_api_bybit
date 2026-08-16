@@ -43,6 +43,7 @@ class BybitRequestData(Feed):
         }
 
     def __init__(self, data_queue: Any = None, **kwargs: Any) -> None:
+        """__init__ method"""
         super().__init__(data_queue, **kwargs)
         self.data_queue = data_queue
         self.public_key = kwargs.get("public_key") or kwargs.get("api_key")
@@ -67,19 +68,17 @@ class BybitRequestData(Feed):
         return None
 
     def push_data_to_queue(self, data):
+        """push_data_to_queue method"""
         if self.data_queue is not None:
             self.data_queue.put(data)
-        else:
-            raise QueueNotInitializedError("data_queue not initialized")
+        else: raise QueueNotInitializedError("data_queue not initialized")
 
     def _generate_signature(self, payload_string):
         """Generate HMAC SHA256 signature for Bybit V5 API.
 
-        Args:
-            payload_string: The string to sign (timestamp + apiKey + recvWindow + queryString/body)
+        Args: payload_string: The string to sign (timestamp + apiKey + recvWindow + queryString/body)
 
-        Returns:
-            str: Hex digest of HMAC SHA256 signature
+        Returns: str: Hex digest of HMAC SHA256 signature
         """
         return hmac.new(
             (self.private_key or "").encode("utf-8"),
@@ -90,15 +89,13 @@ class BybitRequestData(Feed):
     def request(self, path, params=None, body=None, extra_data=None, timeout=10):
         """HTTP request function.
 
-        Args:
-            path: Request path (e.g., "GET /v5/market/tickers?category=spot")
+        Args: path: Request path (e.g., "GET /v5/market/tickers?category=spot")
             params: URL query parameters
             body: Request body (for POST requests)
             extra_data: Extra data for processing
             timeout: Request timeout in seconds
 
-        Returns:
-            RequestData: Response data
+        Returns: RequestData: Response data
         """
         if params is None:
             params: dict[str, Any] = {}
@@ -179,15 +176,13 @@ class BybitRequestData(Feed):
     async def async_request(self, path, params=None, body=None, extra_data=None, timeout=5):
         """Async HTTP request function.
 
-        Args:
-            path: Request path
+        Args: path: Request path
             params: URL query parameters
             body: Request body
             extra_data: Extra data for processing
             timeout: Request timeout in seconds
 
-        Returns:
-            RequestData: Response data
+        Returns: RequestData: Response data
         """
         if params is None:
             params: dict[str, Any] = {}
@@ -255,8 +250,7 @@ class BybitRequestData(Feed):
     def async_callback(self, future):
         """Callback function for async requests.
 
-        Args:
-            future: asyncio future object
+        Args: future: asyncio future object
         """
         try:
             result = future.result()

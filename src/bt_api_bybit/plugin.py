@@ -1,3 +1,4 @@
+"""Module-level docstring."""
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -15,6 +16,7 @@ from bt_api_bybit.registry_registration import register_bybit
 def register_plugin(
     registry: type[ExchangeRegistry], runtime_factory: type[GatewayRuntimeRegistrar]
 ) -> PluginInfo:
+    """register_plugin function"""
     register_bybit(registry)
 
     return PluginInfo(

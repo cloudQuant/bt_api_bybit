@@ -1,4 +1,5 @@
 # Base request handler
+"""Module-level docstring."""
 from __future__ import annotations
 
 from bt_api_bybit.feeds.request_base import BybitRequestData
