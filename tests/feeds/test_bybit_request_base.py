@@ -39,3 +39,28 @@ def test_bybit_accepts_api_key_and_api_secret_aliases() -> None:
 
     assert request_data.public_key == "public-key"
     assert request_data.private_key == "secret-key"
+
+
+def test_bybit_error_response_raises_rate_limit() -> None:
+    """API 错误(retCode != 0)必须翻译为 UnifiedError 并抛出。"""
+    from bt_api_base.error import UnifiedError
+
+    request_data = BybitRequestData(public_key="pk", private_key="sk")
+    with pytest.raises(UnifiedError):
+        request_data._raise_if_error({"retCode": 10006, "retMsg": "Rate limit exceeded"})
+
+
+def test_bybit_error_response_raises_auth_error() -> None:
+    from bt_api_base.error import UnifiedError
+
+    request_data = BybitRequestData(public_key="pk", private_key="sk")
+    with pytest.raises(UnifiedError):
+        request_data._raise_if_error(
+            {"retCode": 13001, "retMsg": "Signature verification failed"}
+        )
+
+
+def test_bybit_success_response_does_not_raise() -> None:
+    """成功响应(retCode == 0)不抛异常。"""
+    request_data = BybitRequestData(public_key="pk", private_key="sk")
+    request_data._raise_if_error({"retCode": 0, "result": {}})
