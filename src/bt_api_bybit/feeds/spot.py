@@ -24,8 +24,8 @@ class BybitRequestDataSpot(BybitRequestData):
         kwargs.setdefault("logger_name", "bybit_spot_feed.log")
         super().__init__(data_queue, **kwargs)
         self._params = BybitExchangeDataSpot()
-        self.request_logger = get_logger("request")
-        self.async_logger = get_logger("async_request")
+        self.request_logger = get_logger("bybit_feed")
+        self.async_logger = get_logger("bybit_async_feed")
 
     # ==================== Market Data Methods ====================
 

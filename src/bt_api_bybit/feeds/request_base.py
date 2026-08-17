@@ -55,8 +55,8 @@ class BybitRequestData(Feed):
         self.asset_type = kwargs.get("asset_type", "spot")
         self.logger_name = kwargs.get("logger_name", "bybit_feed.log")
         self._params = BybitExchangeData()
-        self.request_logger = get_logger("request")
-        self.async_logger = get_logger("async_request")
+        self.request_logger = get_logger("bybit_feed")
+        self.async_logger = get_logger("bybit_async_feed")
         self._error_translator = BybitErrorTranslator()
 
     def translate_error(self, raw_response):
