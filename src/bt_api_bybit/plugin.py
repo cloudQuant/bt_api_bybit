@@ -25,4 +25,7 @@ def register_plugin(
         core_requires=">=0.15,<1.0",
         supported_exchanges=("BYBIT___SPOT", "BYBIT___SWAP"),
         supported_asset_types=("SPOT", "SWAP"),
+        # Bybit 尚未实现 WebSocket 流（无 market_stream/account_stream），
+        # 能力声明显式标注为 REST-only，实时行情按 REST 轮询降级。
+        capabilities=frozenset(),
     )
