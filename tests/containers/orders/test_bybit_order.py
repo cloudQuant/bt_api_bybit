@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 import pytest
+from bt_api_base.containers.orders.order import OrderStatus
 
 from bt_api_bybit.containers.orders.bybit_order import BybitOrderData
-from bt_api_base.containers.orders.order import OrderStatus
 
 
 def test_bybit_order_data_spot():

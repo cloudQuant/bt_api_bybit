@@ -77,7 +77,8 @@ class BybitRequestData(Feed):
         """push_data_to_queue method"""
         if self.data_queue is not None:
             self.data_queue.put(data)
-        else: raise QueueNotInitializedError("data_queue not initialized")
+        else:
+            raise QueueNotInitializedError("data_queue not initialized")
 
     def _generate_signature(self, payload_string):
         """Generate HMAC SHA256 signature for Bybit V5 API.

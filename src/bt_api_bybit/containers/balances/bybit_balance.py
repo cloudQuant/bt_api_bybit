@@ -55,13 +55,13 @@ class BybitBalanceData(BalanceData):
 
             account = list_data[0]  # Bybit ，
 
-            # 
+            #
             self.account_type = account.get("accountType")
             self.total_equity = account.get("totalEquity")
             self.total_wallet_balance = account.get("totalWalletBalance")
             self.total_available_balance = account.get("totalAvailableBalance")
 
-            # 
+            #
             coins_data = account.get("coin", [])
             self.coins = []
 

@@ -27,7 +27,7 @@ class BybitOrderBookData(OrderBookData):
         """Bybit.
 
         Args: orderbook_info: （JSON）
-            symbol_name: 
+            symbol_name:
             asset_type: （ "SPOT", "SWAP"）
             has_been_json_encoded: JSON
         """
@@ -200,7 +200,7 @@ class BybitSpotOrderBookData(BybitOrderBookData):
         """Bybit.
 
         Args: orderbook_info: （JSON）
-            symbol_name: 
+            symbol_name:
             has_been_json_encoded: JSON
         """
         super().__init__(orderbook_info, symbol_name, "spot", has_been_json_encoded)
@@ -218,7 +218,7 @@ class BybitSwapOrderBookData(BybitOrderBookData):
         """Bybit.
 
         Args: orderbook_info: （JSON）
-            symbol_name: 
+            symbol_name:
             has_been_json_encoded: JSON
         """
         super().__init__(orderbook_info, symbol_name, "swap", has_been_json_encoded)

@@ -20,8 +20,8 @@ class BybitTickerData(TickerData):
     def __init__(self, ticker_info, symbol_name, asset_type, has_been_json_encoded=False) -> None:
         """__init__ method"""
         super().__init__(ticker_info, has_been_json_encoded)
-        self.exchange_name = "BYBIT"  # 
-        self.local_update_time = time.time()  # 
+        self.exchange_name = "BYBIT"  #
+        self.local_update_time = time.time()  #
         self.symbol_name = symbol_name
         self.asset_type = asset_type  # ticker
         self.ticker_data: dict[str, Any] | None = ticker_info if has_been_json_encoded else None
@@ -56,16 +56,16 @@ class BybitTickerData(TickerData):
 
             ticker = list_data[0]  # Bybit ，
 
-            # 
+            #
             self.ticker_symbol_name = ticker.get("symbol")
             self.server_time = ticker.get("time", 0)
 
-            # 
+            #
             self.last_price = from_dict_get_float(ticker, "lastPrice")
             self.bid_price = from_dict_get_float(ticker, "bid1Price")
             self.ask_price = from_dict_get_float(ticker, "ask1Price")
 
-            # 
+            #
             self.bid_volume = from_dict_get_float(ticker, "bid1Size")
             self.ask_volume = from_dict_get_float(ticker, "ask1Size")
             self.last_volume = from_dict_get_float(ticker, "volume24h")
@@ -76,7 +76,7 @@ class BybitTickerData(TickerData):
             self.volume_24h = from_dict_get_float(ticker, "volume24h")
             self.turnover_24h = from_dict_get_float(ticker, "turnover24h")
 
-            # 
+            #
             prev_price_24h = from_dict_get_float(ticker, "prevPrice24h")
             if prev_price_24h and self.last_price:
                 self.price_change_24h = self.last_price - prev_price_24h
