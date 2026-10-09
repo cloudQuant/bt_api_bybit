@@ -1,4 +1,4 @@
-# Bybit Documentation
+﻿# Bybit Documentation
 
 <!-- English -->
 ## English

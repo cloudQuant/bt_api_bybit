@@ -1,4 +1,4 @@
-# bt_api_bybit
+﻿# bt_api_bybit
 
 [![PyPI Version](https://img.shields.io/pypi/v/bt_api_bybit.svg)](https://pypi.org/project/bt_api_bybit/)
 [![Python Versions](https://img.shields.io/pypi/pyversions/bt_api_bybit.svg)](https://pypi.org/project/bt_api_bybit/)
