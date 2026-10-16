@@ -6,11 +6,10 @@ from dataclasses import dataclass
 from importlib import import_module
 from typing import Any
 
-from bt_api_base.gateway.registrar import GatewayRuntimeRegistrar
 from bt_api_base.plugins.loader import PluginLoader
 from bt_api_base.plugins.protocol import PluginInfo
 from bt_api_base.registry import ExchangeRegistry
-from bt_api_base.testing import create_isolated_exchange_registry, reset_gateway_runtime_registrar
+from bt_api_base.testing import create_isolated_exchange_registry
 
 from bt_api_bybit.plugin import register_plugin
 
@@ -26,27 +25,15 @@ class _EntryPoint:
         return module.register_plugin
 
 
-class _RuntimeFactory:
-    def __init__(self) -> None:
-        """__init__ method"""
-        self.adapters: dict[str, type[Any]] = {}
-
-    def register_adapter(self, exchange_type: str, adapter_cls: type[Any]) -> None:
-        """register_adapter method"""
-        self.adapters[exchange_type] = adapter_cls
-
-
 def setup_function() -> None:
     """setup_function function"""
     ExchangeRegistry.clear()
-    reset_gateway_runtime_registrar()
 
 
 def test_register_plugin_returns_plugin_info():
     """test_register_plugin_returns_plugin_info function"""
-    runtime_factory = _RuntimeFactory()
     registry = create_isolated_exchange_registry()
-    info = register_plugin(registry, runtime_factory)
+    info = register_plugin(registry)
 
     assert isinstance(info, PluginInfo)
     assert info.name == "bt_api_bybit"
@@ -55,12 +42,11 @@ def test_register_plugin_returns_plugin_info():
     assert info.supported_asset_types == ("SPOT", "SWAP")
     assert registry.get_feed_class("BYBIT___SPOT") is not None
     assert registry.get_feed_class("BYBIT___SWAP") is not None
-    assert "BYBIT" not in runtime_factory.adapters
 
 
 def test_plugin_loader_loads_bybit_plugin(monkeypatch):
     """test_plugin_loader_loads_bybit_plugin function"""
-    loader = PluginLoader(ExchangeRegistry, GatewayRuntimeRegistrar)
+    loader = PluginLoader(ExchangeRegistry)
     monkeypatch.setattr(loader, "_discover_entry_points", lambda group: [_EntryPoint()])
 
     loader.load_all()
