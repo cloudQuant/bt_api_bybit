@@ -34,7 +34,7 @@
 | Asset Type | Code | REST | Description |
 |---|---|---|---|
 | Spot | `BYBIT___SPOT` | ✅ | Spot trading |
-| Linear Futures | `BYBIT___LINEAR` | ✅ | USDT-margined perpetual futures |
+| Linear Futures | `BYBIT___SWAP` | ✅ | USDT-margined perpetual futures |
 
 ### Supported Operations
 
@@ -52,9 +52,13 @@
 | | `cancel_order` | ✅ | ✅ |
 | | `query_order` | ✅ | ✅ |
 
+### Provider and framework boundary
+
+This package implements Bybit REST request feeds, endpoint mapping, and typed response containers for Spot and Linear (Swap). Its `bt_api.plugins` entry point is loaded by `bt_api_base.PluginLoader`, which calls `register_plugin(registry)` to register `BYBIT___SPOT` and `BYBIT___SWAP`; importing the package alone does not register it. No market or account WebSocket stream is registered. `bt_api_py` provides the `BtApi` facade, while Backtrader supplies the strategy and engine layer. This code wiring is not live-account acceptance. See [Trading System Architecture](https://github.com/cloudQuant/backtrader/blob/dev/docs/TRADING_SYSTEM_ARCHITECTURE.md).
+
 ### Plugin Architecture
 
-Auto-registers at import time via `ExchangeRegistry`. Works seamlessly with `BtApi`:
+The following `BtApi` examples use the registered REST feeds:
 
 ```python
 from bt_api_py import BtApi
@@ -64,7 +68,7 @@ api = BtApi(exchange_kwargs={
         "api_key": "your_api_key",
         "secret": "your_secret",
     },
-    "BYBIT___LINEAR": {
+    "BYBIT___SWAP": {
         "api_key": "your_api_key",
         "secret": "your_secret",
     },
@@ -74,7 +78,7 @@ api = BtApi(exchange_kwargs={
 ticker = api.get_tick("BYBIT___SPOT", "BTCUSDT")
 
 # Linear futures ticker
-ticker_swap = api.get_tick("BYBIT___LINEAR", "BTCUSDT")
+ticker_swap = api.get_tick("BYBIT___SWAP", "BTCUSDT")
 
 # Account balance (requires auth)
 balance = api.get_balance("BYBIT___SPOT")
@@ -160,18 +164,18 @@ print(f"Order placed: {order}")
 from bt_api_py import BtApi
 
 api = BtApi(exchange_kwargs={
-    "BYBIT___LINEAR": {
+    "BYBIT___SWAP": {
         "api_key": "your_api_key",
         "secret": "your_secret",
     }
 })
 
 # Get linear futures ticker
-ticker = api.get_tick("BYBIT___LINEAR", "BTCUSDT")
+ticker = api.get_tick("BYBIT___SWAP", "BTCUSDT")
 
 # Place linear futures order
 order = api.make_order(
-    exchange_name="BYBIT___LINEAR",
+    exchange_name="BYBIT___SWAP",
     symbol="BTCUSDT",
     volume=0.001,
     price=67000,
@@ -302,7 +306,7 @@ MIT — see [LICENSE](LICENSE).
 | 资产类型 | 代码 | REST | 说明 |
 |---|---|---|---|
 | 现货 | `BYBIT___SPOT` | ✅ | 现货交易 |
-| 线性合约 | `BYBIT___LINEAR` | ✅ | USDT 保证金永续合约 |
+| 线性合约 | `BYBIT___SWAP` | ✅ | USDT 保证金永续合约 |
 
 ### 支持的操作
 
@@ -320,9 +324,13 @@ MIT — see [LICENSE](LICENSE).
 | | `cancel_order` | ✅ | ✅ |
 | | `query_order` | ✅ | ✅ |
 
+### Provider 与框架职责边界
+
+本包实现 Bybit Spot 和 Linear（Swap）的 REST 请求 feed、端点映射及类型化响应容器。安装包的 `bt_api.plugins` 入口由 `bt_api_base.PluginLoader` 加载并调用 `register_plugin(registry)`，注册键为 `BYBIT___SPOT` 和 `BYBIT___SWAP`；单独导入不会注册。当前未注册行情或账户 WebSocket stream。`bt_api_py` 提供 `BtApi` 外观，Backtrader 提供策略与引擎层。源码接线不代表已通过真实账户验收。参见[交易系统架构](https://github.com/cloudQuant/backtrader/blob/dev/docs/TRADING_SYSTEM_ARCHITECTURE.md)。
+
 ### 插件架构
 
-通过 `ExchangeRegistry` 在导入时自动注册，与 `BtApi` 无缝协作：
+以下 `BtApi` 示例使用已注册的 REST feed：
 
 ```python
 from bt_api_py import BtApi
@@ -332,7 +340,7 @@ api = BtApi(exchange_kwargs={
         "api_key": "your_api_key",
         "secret": "your_secret",
     },
-    "BYBIT___LINEAR": {
+    "BYBIT___SWAP": {
         "api_key": "your_api_key",
         "secret": "your_secret",
     },
@@ -342,7 +350,7 @@ api = BtApi(exchange_kwargs={
 ticker = api.get_tick("BYBIT___SPOT", "BTCUSDT")
 
 # 线性合约行情
-ticker_swap = api.get_tick("BYBIT___LINEAR", "BTCUSDT")
+ticker_swap = api.get_tick("BYBIT___SWAP", "BTCUSDT")
 
 # 账户余额（需要认证）
 balance = api.get_balance("BYBIT___SPOT")
@@ -428,18 +436,18 @@ print(f"订单已下单: {order}")
 from bt_api_py import BtApi
 
 api = BtApi(exchange_kwargs={
-    "BYBIT___LINEAR": {
+    "BYBIT___SWAP": {
         "api_key": "your_api_key",
         "secret": "your_secret",
     }
 })
 
 # 获取线性合约行情
-ticker = api.get_tick("BYBIT___LINEAR", "BTCUSDT")
+ticker = api.get_tick("BYBIT___SWAP", "BTCUSDT")
 
 # 下线性合约订单
 order = api.make_order(
-    exchange_name="BYBIT___LINEAR",
+    exchange_name="BYBIT___SWAP",
     symbol="BTCUSDT",
     volume=0.001,
     price=67000,
