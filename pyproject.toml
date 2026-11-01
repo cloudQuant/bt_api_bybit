@@ -61,3 +61,7 @@ indent-style = "space"
 [project.entry-points."bt_api.fee_projections"]
 BYBIT___SPOT = "bt_api_base.fee_projection:legacy_fee_projection"
 BYBIT___SWAP = "bt_api_base.fee_projection:legacy_fee_projection"
+
+[project.entry-points."bt_api.order_side_projections"]
+BYBIT___SPOT = "bt_api_base.order_side_projection:legacy_order_side_candidates"
+BYBIT___SWAP = "bt_api_base.order_side_projection:legacy_order_side_candidates"
