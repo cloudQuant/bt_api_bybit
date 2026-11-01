@@ -57,3 +57,7 @@ ignore = ["E501", "B008", "N802", "N803", "S101"]
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
+
+[project.entry-points."bt_api.fee_projections"]
+BYBIT___SPOT = "bt_api_base.fee_projection:legacy_fee_projection"
+BYBIT___SWAP = "bt_api_base.fee_projection:legacy_fee_projection"
