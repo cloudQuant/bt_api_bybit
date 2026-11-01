@@ -18,6 +18,10 @@ dev = ["pytest", "ruff", "mypy"]
 [project.entry-points."bt_api.plugins"]
 bybit = "bt_api_bybit.plugin:register_plugin"
 
+[project.entry-points."bt_api.order_identity_projections"]
+BYBIT___SPOT = "bt_api_base.order_identity_projection:project_legacy_order_identity"
+BYBIT___SWAP = "bt_api_base.order_identity_projection:project_legacy_order_identity"
+
 [tool.setuptools.packages.find]
 where = ["src"]
 
