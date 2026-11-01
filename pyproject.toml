@@ -22,6 +22,10 @@ bybit = "bt_api_bybit.plugin:register_plugin"
 BYBIT___SPOT = "bt_api_base.order_identity_projection:project_legacy_order_identity"
 BYBIT___SWAP = "bt_api_base.order_identity_projection:project_legacy_order_identity"
 
+[project.entry-points."bt_api.order_request_projections"]
+BYBIT___SPOT = "bt_api_base.order_request_projection:legacy_order_request_projection"
+BYBIT___SWAP = "bt_api_base.order_request_projection:legacy_order_request_projection"
+
 [tool.setuptools.packages.find]
 where = ["src"]
 
